@@ -40,7 +40,7 @@ export default {
     return{
       usuario:"",
       password:"",
-      error:false,
+      error:false,//cuando esto se convierta en true, se desplegará un div con el contenido de contraseña o usuario equivocados
       error_msg:""
     }
 
@@ -51,6 +51,7 @@ export default {
       var rut=window.location.href;
       var ruta =rut.search("webapp/");
       var rutaFinal=rut.substring(0,ruta);
+      //esto toma la ip actual y lo concatena con la ruta de la api para no generar conflictos en tre las partes publicas y provadas del servidor
 
       console.log(urlActual);
       console.log(rutaFinal);
@@ -68,7 +69,7 @@ export default {
          'Username':this.usuario,
          'Password':this.password
        };
-       instance.post(url,json,headers).then(data =>{
+       instance.post(url,json,headers).then(data =>{//esto ejecuta el post con la información del usuario y contraseña
          if(data.data.message=="1"){
            console.log(data);
            localStorage.token=data.data.token;
@@ -76,9 +77,9 @@ export default {
            localStorage.tipo=data.data.datosUsuario.DatosUsuario[0].TIPO;
            localStorage.nombre=data.data.datosUsuario.DatosUsuario[0].USUARIO;
            localStorage.estado="P"
-           if (localStorage.tipo=="P"){
+           if (localStorage.tipo=="P"){//si el tipo es proveedor, lo envía al dashboard de proveedores.
              this.$router.push('dashboard');
-           }else if(localStorage.tipo=="A"){
+           }else if(localStorage.tipo=="A"){//y si el tipo es agente , lo envía al dashboard de agentes.
              this.$router.push('dashboardagente');
            }
            
@@ -95,7 +96,7 @@ export default {
 
 
 
-</script>
+</script> 
 
 
 

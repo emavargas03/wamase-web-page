@@ -8,15 +8,15 @@
         <table class="table table-hover table-sm table-bordered table-reflow">
         <thead class="thead">
           <tr>
-            <th scope="col">Número de Solicitud</th>
-            <th scope="col">Código del agente</th>
-            <th scope="col">Código del cliente</th>
-            <th scope="col">Comentario de Solicitud</th>
-            <th scope="col">Fecha de la solicitud</th>
+            <th scope="col">Número Solicitud</th>
+            <th scope="col">Código agente</th>
+            <th scope="col">Código cliente</th>
+            <th scope="col">Comentario Solicitud</th>
+            <th scope="col">Fecha solicitud</th>
             <th scope="col">Estado</th>
             <th v-if="pendiente" scope="col">Aceptar/Rechazar</th>
-            <th v-if="estadoRechazado" scope="col">Comentario</th>
-            <th v-if="estadoAceptado" scope="col">Comentario</th>
+            <th v-if="estadoRechazado" scope="col">Comentario Proveedor</th>
+            <th v-if="estadoAceptado" scope="col">Comentario Proveedor</th>
           </tr>
         </thead>
         <tbody>
@@ -119,7 +119,6 @@ export default{
   data(){
     return{
       ListaSolicitudes:null,
-      Pagina:1,
       myModel:false,
       pendiente:false,
       apoyoAceptar:1,

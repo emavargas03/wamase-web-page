@@ -44,13 +44,13 @@ const router = new VueRouter({
 export default router
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if ((localStorage.getItem('token') !== null) == false) {
-      next('/webapp/#')
+  if (to.matched.some(record => record.meta.requiresAuth)) {//aqui pregunta si requiere autorizacion
+    if ((localStorage.getItem('token') !== null) == false) {//aqui pregunta si tiene token
+      next('/webapp/#')//si no lo tiene, lo devuelve al login
     } else {
-      next()
+      next()//y si lo tiene lo deja seguir
     }
   } else {
-    next()
+    next()//y si no requiere autorizacion lo deja continuar
   }
 })
