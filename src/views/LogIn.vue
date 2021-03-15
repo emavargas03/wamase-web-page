@@ -75,7 +75,13 @@ export default {
            localStorage.cod_cliente=data.data.datosUsuario.DatosUsuario[0].COD_CLIENTE;
            localStorage.tipo=data.data.datosUsuario.DatosUsuario[0].TIPO;
            localStorage.nombre=data.data.datosUsuario.DatosUsuario[0].USUARIO;
-           this.$router.push('dashboard');
+           localStorage.estado="P"
+           if (localStorage.tipo=="P"){
+             this.$router.push('dashboard');
+           }else if(localStorage.tipo=="A"){
+             this.$router.push('dashboardagente');
+           }
+           
          }else{
             this.error=true;
             this.error_msg="Usuario o contraseña invalidos";
