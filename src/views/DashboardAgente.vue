@@ -85,7 +85,7 @@ export default {
     }
 
   },
-  updated:function() {
+  beforeUpdate:function() {
     
     var rut=window.location.href;
     var ruta =rut.search("webapp/");
@@ -96,11 +96,9 @@ export default {
     axios({ method: 'get', url: urlApoyo ,params:{'pAgente':localStorage.cod_cliente,'pTipo':localStorage.estado} ,headers: { 'Authorization': bearer } }).then(data =>{
       
       this.ListaSolicitudes=data.data.Apoyos;
-      console.log(data);
       
         if(data.data.Apoyos[0].ESTADO == "P"){
           this.pendiente=true;
-          console.log("Funciona")
         }
      });
     if (localStorage.estado=="R"){

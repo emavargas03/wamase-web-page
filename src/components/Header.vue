@@ -10,7 +10,7 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          
+          <div v-if="tipoU=='A'">
           <b-nav-item-dropdown right>
 
             <!-- Using 'button-content' slot -->
@@ -19,7 +19,7 @@
             </template>
             <b-dropdown-item href="#" v-on:click="articulosAgente">Articulo Cliente</b-dropdown-item>
           </b-nav-item-dropdown>
-
+          </div>
           <b-nav-item-dropdown right>
 
             <!-- Using 'button-content' slot -->

@@ -164,23 +164,9 @@ export default{
     }
 
   },
-  updated:function() {
+  beforeUpdate:function() {
     this.updateTable();
-    if (localStorage.estado=="R"){
-      this.estadoRechazado=true;
-      this.estadoAceptado=false;
-      this.pendiente=false;
-    }
-    if (localStorage.estado=="A"){
-      this.estadoAceptado=true;
-      this.estadoRechazado=false;
-      this.pendiente=false;
-    }
-    if(localStorage.estado=="P"){
-      this.estadoRechazado=false;
-      this.estadoAceptado=false;
-      this.pendiente=true;
-    }
+    
   },
   methods:{
     openModal:function(numero){
@@ -230,17 +216,24 @@ export default{
 
     var bearer= 'Bearer '+localStorage.token;
     axios({ method: 'get', url: urlApoyo ,params:{'pProveedor':localStorage.cod_cliente,'pTipo':localStorage.estado} ,headers: { 'Authorization': bearer } }).then(data =>{
-      console.log(data.data.Apoyos[0].Estado);
+      //console.log(data.data.Apoyos[0].Estado);
       this.ListaSolicitudes=data.data.Apoyos;
 
      });
     if (localStorage.estado=="R"){
       this.estadoRechazado=true;
       this.estadoAceptado=false;
+      this.pendiente=false;
     }
     if (localStorage.estado=="A"){
       this.estadoAceptado=true;
       this.estadoRechazado=false;
+      this.pendiente=false;
+    }
+    if(localStorage.estado=="P"){
+      this.estadoRechazado=false;
+      this.estadoAceptado=false;
+      this.pendiente=true;
     }
     }
   }
