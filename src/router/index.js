@@ -7,6 +7,7 @@ import Home from '../views/Home.vue'
 import Dashboard from '../views/Dashboard.vue'
 import LogIn from '../views/LogIn.vue'
 import DashboardAgente from '../views/DashboardAgente.vue'
+import ArticulosAgente from '../views/ArticulosAgentes.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +23,7 @@ const routes = [
     component: LogIn
   },
   {
-    path: '/webapp/dashboard',
+    path: '/webapp/dashboards',
     name: 'Dashboard',
     component: Dashboard,
     meta:{requiresAuth:true}//esto lo envía al router.beforeach, y ahí se realiza el proceso de autenticación para que pueda continuar.
@@ -31,6 +32,12 @@ const routes = [
     path: '/webapp/dashboardagente',
     name: 'DashboardAgente',
     component: DashboardAgente,
+    meta:{requiresAuth:true}
+  },
+  {
+    path:'/webapp/articulosagente',
+    name:'ArticulosAgente',
+    component:ArticulosAgente,
     meta:{requiresAuth:true}
   }
 ]

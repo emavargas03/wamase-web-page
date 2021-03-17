@@ -85,8 +85,43 @@ export default {
     }
 
   },
+  updated:function() {
+    
+    var rut=window.location.href;
+    var ruta =rut.search("webapp/");
+    var rutaFinal=rut.substring(0,ruta);
+    let urlApoyo=rutaFinal+'webapi/api/apoyos/apoyoagente'
 
-}
+    var bearer= 'Bearer '+localStorage.token;
+    axios({ method: 'get', url: urlApoyo ,params:{'pAgente':localStorage.cod_cliente,'pTipo':localStorage.estado} ,headers: { 'Authorization': bearer } }).then(data =>{
+      
+      this.ListaSolicitudes=data.data.Apoyos;
+      console.log(data);
+      
+        if(data.data.Apoyos[0].ESTADO == "P"){
+          this.pendiente=true;
+          console.log("Funciona")
+        }
+     });
+    if (localStorage.estado=="R"){
+      this.estadoRechazado=true;
+      this.estadoAceptado=false;
+      this.pendiente=false;
+    }
+    if (localStorage.estado=="A"){
+      this.estadoAceptado=true;
+      this.estadoRechazado=false;
+      this.pendiente=false;
+    }
+    if(localStorage.estado=="P"){
+      this.estadoRechazado=false;
+      this.estadoAceptado=false;
+      this.pendiente=true;
+    }
+    }
+  }
+
+
 </script>
 
 <style>

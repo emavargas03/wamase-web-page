@@ -76,9 +76,11 @@ export default {
            localStorage.cod_cliente=data.data.datosUsuario.DatosUsuario[0].COD_CLIENTE;
            localStorage.tipo=data.data.datosUsuario.DatosUsuario[0].TIPO;
            localStorage.nombre=data.data.datosUsuario.DatosUsuario[0].USUARIO;
+           localStorage.nombrepersona=data.data.datosUsuario.DatosUsuario[0].NOMBREPERSONA;
+           localStorage.apellidos=data.data.datosUsuario.DatosUsuario[0].APELLIDOS;
            localStorage.estado="P"
            if (localStorage.tipo=="P"){//si el tipo es proveedor, lo envía al dashboard de proveedores.
-             this.$router.push('dashboard');
+             this.$router.push('dashboards');
            }else if(localStorage.tipo=="A"){//y si el tipo es agente , lo envía al dashboard de agentes.
              this.$router.push('dashboardagente');
            }
