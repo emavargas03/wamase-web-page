@@ -8,6 +8,7 @@ import Dashboard from '../views/Dashboard.vue'
 import LogIn from '../views/LogIn.vue'
 import DashboardAgente from '../views/DashboardAgente.vue'
 import ArticulosAgente from '../views/ArticulosAgentes.vue'
+import Landing from '../views/Landing.vue'
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,12 @@ const routes = [
     path:'/webapp/articulosagente',
     name:'ArticulosAgente',
     component:ArticulosAgente,
+    meta:{requiresAuth:true}
+  },
+  {
+    path:'/webapp/inicio',
+    name:'Inicio',
+    component:Landing,
     meta:{requiresAuth:true}
   }
 ]

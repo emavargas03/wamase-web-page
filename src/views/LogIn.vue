@@ -78,13 +78,13 @@ export default {
            localStorage.nombre=data.data.datosUsuario.DatosUsuario[0].USUARIO;
            localStorage.nombrepersona=data.data.datosUsuario.DatosUsuario[0].NOMBREPERSONA;
            localStorage.apellidos=data.data.datosUsuario.DatosUsuario[0].APELLIDOS;
-           localStorage.estado="P"
-           if (localStorage.tipo=="P"){//si el tipo es proveedor, lo envía al dashboard de proveedores.
-             this.$router.push('dashboards');
-           }else if(localStorage.tipo=="A"){//y si el tipo es agente , lo envía al dashboard de agentes.
-             this.$router.push('dashboardagente');
-           }
-           
+          //  localStorage.estado="P"
+          //  if (localStorage.tipo=="P"){//si el tipo es proveedor, lo envía al dashboard de proveedores.
+          //    this.$router.push('dashboards');
+          //  }else if(localStorage.tipo=="A"){//y si el tipo es agente , lo envía al dashboard de agentes.
+          //    this.$router.push('dashboardagente');
+          //  }
+           this.$router.push('inicio');
          }else{
             this.error=true;
             this.error_msg="Usuario o contraseña invalidos";

@@ -153,13 +153,13 @@ background-color:#ededed;
      vertical-align: middle;
    }
 .btn-success{
-  background: #60e25c;
+  background: #06c000;
 }
 .btn-danger{
-  background: #e25c5c;
+  background: #d61919;
 }
 .thead{
-  background: #9ed5f5;
+  background: #02cf8b;
   color: #ffffff;
 }
 </style>

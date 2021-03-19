@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" id="barra" class="navbar-dark text-light ml-auto">
-      <a class="navbar" href="#" id="logo"><img src="@/assets/Wamase.png" id="icon" alt="IconoEmpresa"/></a>
+      <a class="navbar" href="#" id="logo"><img src="@/assets/logoWamase.png" id="icon" alt="IconoEmpresa"/></a>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -183,7 +183,7 @@ width:40%;
 }
 #barra{
   color: #fff;
-  background: linear-gradient( to right,  #9ed5f5,#80ccf8);
+  background: linear-gradient( to right,  #02cf8b,#01b67a);
   box-shadow: 0 4px 20px 0 rgba(0,0,0,0.14), 3px 7px 12px -5px rgba(12, 134, 116, 0.46);
   margin-top:5px;
   padding-left:0;

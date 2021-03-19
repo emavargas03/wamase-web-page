@@ -40,35 +40,34 @@
           </tr>
         </tbody>
       </table>
-      <div class="container">
-    <div v-if="myModel">
-      <transition name="model">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-dialog">
-              <div class="modal-content">
+      <div v-if="myModel">
+        <transition name="model">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-dialog">
                 <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Rechazar</h5>
-                    <button type="button" class="close" v-on:click="myModel=false">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Rechazar</h5>
+                      <button type="button" class="close" v-on:click="myModel=false">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      
+                    </div>
+                    <div class="modal-body">
+                      <textarea name="comentarios" rows="10" cols="40" placeholder="Escriba aquí la razón" id="razon"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
+                      <button type="button" class="btn btn-primary" v-on:click="sendModal">Enviar</button>
                   </div>
-                  <div class="modal-body">
-                    <textarea name="comentarios" rows="10" cols="40" placeholder="Escriba aquí la razón" id="razon"></textarea>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
-                    <button type="button" class="btn btn-primary" v-on:click="sendModal">Enviar</button>
-                </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </transition>
-    </div>
+        </transition>
+      </div>
 
     <div v-if="acceptModal">
       <transition name="model">
@@ -85,7 +84,7 @@
                     
                   </div>
                   <div class="modal-body">
-                    <textarea name="comentarios" rows="10" cols="40" placeholder="Escriba aquí la razón" id="razon"></textarea>
+                    <textarea name="comentarios" rows="10" cols="35" placeholder="Escriba aquí la razón" id="razon"></textarea>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
@@ -100,7 +99,7 @@
     </div>
 
 
-    </div>
+  
 
     </div>
     </div>
@@ -255,7 +254,7 @@ height: 100vh;
 background-color:#ededed;
 }
 
-.modal-mask{
+/* .modal-mask{
   position: absolute;
    z-index: 9998;
    top: 0;
@@ -269,15 +268,15 @@ background-color:#ededed;
    .modal-wrapper {
      display: table-cell;
      vertical-align: middle;
-   }
+   } */
 .btn-success{
-  background: #60e25c;
+  background: #06c000;
 }
 .btn-danger{
-  background: #e25c5c;
+  background: #d61919;
 }
 .thead{
-  background: #9ed5f5;
+  background: #02cf8b;
   color: #ffffff;
 }
 </style>

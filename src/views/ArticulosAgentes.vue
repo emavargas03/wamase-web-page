@@ -2,29 +2,23 @@
 <div>
     <Header/>
     <div class="container">
-        <div class="shadow-sm p-3 mt-5 bg-white rounded">
-            <div class="row">
-                <div class="col busqueda">
-                    <label for="articulo">Articulo:</label>
-                    <input type="search" id="articulo" class="form-control" placeholder="Articulo" >
+        <div class="shadow-sm p-3 mt-5 bg-white rounded buscar">
+            
+            <div class="row justify-content-between">
+                <div class="col-4">
+                    <p class="d-inline">Mostrar</p>
+                    <select class="form-select form-select-sm d-inline" id="cantperpag" aria-label=".form-select-sm example">
+                    <option value="5" v-on:click="cambiarPagi(5)">5</option>
+                    <option selected value="10" v-on:click="cambiarPagi(10)">10</option>
+                    <option value="15" v-on:click="cambiarPagi(15)">15</option>
+                    </select>
                 </div>
-                <div class="col fecha">
-                    <label for="start">Desde:</label>
-                    <input type="date" id="start" class="form-control" placeholder="Desde" value="Desde">
-                </div>
+                <div class="col-3">
+                    <button class="btn btn-sm"><img src="@/assets/search.png" alt="buscar" class="imgbuscar" v-on:click="openModal"></button>
+                </div>    
             </div>
-            <div class="row">
-                <div class="col busqueda">
-                    <label for="cliente">Hasta:</label>
-                    <input type="search" id="cliente" class="form-control" placeholder="Cliente" >
-                </div>
-                
-                <div class="col fecha">
-                    <label for="end">Hasta:</label>
-                    <input type="date" id="end" class="form-control" placeholder="Hasta">
-                </div>
-            </div>
-            <button type="button" class="btn btn-primary">Buscar</button>
+            
+            
         </div>
         <div class="table-responsive shadow-sm p-3 mb-5 mt-1 bg-white rounded" id="tabla">
             
@@ -55,9 +49,6 @@
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                             </li>
-                            <!-- <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li> -->
                             <li class="page-item" v-on:click="recargar">
                             <a class="page-link" href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
@@ -69,6 +60,56 @@
 
             </table>
         </div>
+        
+    <div v-if="buscar">
+      <transition name="model">
+        <div class="modal-mask">
+          <div class="modal-wrapper">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Buscar</h5>
+                    <button type="button" class="close" v-on:click="buscar=false">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    
+                  </div>
+                  <div class="modal-body">
+                    <div class="row">
+                        <div class="col busqueda">
+                            <label for="articulo">Articulo:</label>
+                            <input type="search" id="articulo" class="form-control" placeholder="Articulo" >
+                        </div>
+                        <div class="col fecha">
+                            <label for="start">Desde:</label>
+                            <input type="date" id="start" class="form-control" placeholder="Desde" value="Desde">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col busqueda">
+                            <label for="cliente">Cliente:</label>
+                            <input type="search" id="cliente" class="form-control" placeholder="Cliente" >
+                        </div>
+                        
+                        <div class="col fecha">
+                            <label for="end">Hasta:</label>
+                            <input type="date" id="end" class="form-control" placeholder="Hasta">
+                        </div>
+                    </div>
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="buscar=false">Cancelar</button>
+                    <button type="button" class="btn btn-primary" v-on:click="buscarRegistro">Buscar</button>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
 
     </div>
 </div>
@@ -88,7 +129,12 @@ export default {
             ListaArticulos:null,
             pagina:1,
             cantPag:10,
-
+            buscar:false,
+            cliente:null,
+            articulo:null,
+            inicio:null,
+            final:null,
+            totalPag:0
         }
     },
     components:{
@@ -111,10 +157,10 @@ export default {
         }
 
       let json={
-        "Cliente":"QUE030",
-        "Articulo":"0103150",
-        "Desde":"2019-01-01T00:00:00-06:00",
-        "Hasta":"2021-04-21T00:00:00-06:00",
+        "Cliente":this.cliente,
+        "Articulo":this.cliente,
+        "Desde":this.cliente,
+        "Hasta":this.cliente,
        };
        
        instance.post(urlArticulos,json,headers).then(data =>{
@@ -127,12 +173,57 @@ export default {
         //this.recargar();
     },
     methods:{
+        buscarRegistro:function(){
+            this.pagina=1;
+            this.articulo=document.getElementById("articulo").value;
+            this.cliente=document.getElementById("cliente").value;
+            this.inicio=document.getElementById("start").value;
+            this.final=document.getElementById("end").value;
+            
+
+
+            this.inicio=this.inicio+"T00:00:00-06:00";
+            this.final=this.final+"T00:00:00-06:00";
+            let instance = axios.create();
+            var rut=window.location.href;
+            var ruta =rut.search("webapp/");
+            var rutaFinal=rut.substring(0,ruta);
+            let urlArticulos=rutaFinal+'webapi/api/productos/datocliearti?page='+this.pagina+'&qty='+this.cantPag;
+            var bearer= 'Bearer '+localStorage.token;
+
+            let headers={
+                headers:{
+                    "Content-Type": "Application/JSON",
+                    "Authorization":bearer
+            }
+            }
+
+            let json={
+                "Cliente":this.cliente,
+                "Articulo":this.articulo,
+                "Desde":this.inicio,
+                "Hasta":this.final,
+            };
+            instance.post(urlArticulos,json,headers).then(data =>{
+                console.log(data);
+                this.ListaArticulos=data.data.Productos;
+                console.log(this.ListaArticulos[0]);
+                this.totalPag=this.ListaArticulos[0].PAGINAS;
+            });
+            this.buscar=false;
+            
+        },
         /* avanzar:function(){
             
             this.recargar();
         }, */
         recargar:function(){
-            this.pagina= this.pagina+1;
+            if(this.pagina==this.totalPag){
+                this.pagina=this.totalPag;
+            }else{
+                this.pagina= this.pagina+1;
+            }
+            console.log(this.desde,this.hasta);
             console.log(this.pagina);
             let instance = axios.create();
             var rut=window.location.href;
@@ -149,11 +240,12 @@ export default {
             }
 
         let json={
-            "Cliente":"QUE030",
-            "Articulo":"0103150",
-            "Desde":"2019-01-01T00:00:00-06:00",
-            "Hasta":"2021-04-21T00:00:00-06:00",
+            "Cliente":this.cliente,
+            "Articulo":this.articulo,
+            "Desde":this.inicio,
+            "Hasta":this.final,
         };
+        console.log(json);
         
         instance.post(urlArticulos,json,headers).then(data =>{
             console.log(data);
@@ -163,7 +255,12 @@ export default {
        
     },
     retroceder:function(){
-            this.pagina= this.pagina-1;
+            if(this.pagina==1){
+                this.pagina=1;
+            }else{
+                this.pagina= this.pagina-1;
+            }
+            
             console.log(this.pagina);
             let instance = axios.create();
             var rut=window.location.href;
@@ -180,10 +277,10 @@ export default {
             }
 
         let json={
-            "Cliente":"QUE030",
-            "Articulo":"0103150",
-            "Desde":"2019-01-01T00:00:00-06:00",
-            "Hasta":"2021-04-21T00:00:00-06:00",
+            "Cliente":this.cliente,
+            "Articulo":this.articulo,
+            "Desde":this.inicio,
+            "Hasta":this.final,
         };
         
         instance.post(urlArticulos,json,headers).then(data =>{
@@ -192,7 +289,44 @@ export default {
             console.log(this.ListaArticulos);
        });
        
-    }
+    },
+    openModal:function(){
+        this.buscar=true;
+        
+    },
+    cambiarPagi:function(cantidad){
+        this.cantPag=cantidad;
+        this.pagina=1;
+        let instance = axios.create();
+            var rut=window.location.href;
+            var ruta =rut.search("webapp/");
+            var rutaFinal=rut.substring(0,ruta);
+            let urlArticulos=rutaFinal+'webapi/api/productos/datocliearti?page='+this.pagina+'&qty='+this.cantPag;
+            var bearer= 'Bearer '+localStorage.token;
+
+            let headers={
+                headers:{
+                    "Content-Type": "Application/JSON",
+                    "Authorization":bearer
+            }
+            }
+
+        let json={
+            "Cliente":this.cliente,
+            "Articulo":this.articulo,
+            "Desde":this.inicio,
+            "Hasta":this.final,
+        };
+        
+        instance.post(urlArticulos,json,headers).then(data =>{
+            console.log(data.data.Productos[0]);
+            this.ListaArticulos=data.data.Productos;
+            console.log(this.ListaArticulos);               
+            this.totalPag=this.ListaArticulos[0].PAGINAS;
+
+            
+       });
+    },
     },
 }
 </script>
@@ -211,8 +345,8 @@ th{
 .fecha{
     width: 30%;
 }
-.enviar{
-    /* max-width: 50%; */
+.imgbuscar{
+    width: 30px;
 }
 
 </style>
