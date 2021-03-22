@@ -21,7 +21,8 @@ const routes = [
   {
     path: '/webapp/',
     name: 'LogIn',
-    component: LogIn
+    component: LogIn,
+    meta:{haveAuth:true}
   },
   {
     path: '/webapp/dashboards',
@@ -62,6 +63,16 @@ router.beforeEach((to, from, next) => {
     if ((localStorage.getItem('token') !== null) == false) {//aqui pregunta si tiene token
       next('/webapp/#')//si no lo tiene, lo devuelve al login
     } else {
+      next()//y si lo tiene lo deja seguir
+    }
+  } else {
+    next()//y si no requiere autorizacion lo deja continuar
+  }
+  
+  if(to.matched.some(record => record.meta.haveAuth)){
+    if((localStorage.getItem('token') !== null) == true){
+      next({path:'/webapp/inicio'})
+    }else {
       next()//y si lo tiene lo deja seguir
     }
   } else {

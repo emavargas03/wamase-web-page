@@ -7,10 +7,10 @@
             <div class="row justify-content-between">
                 <div class="col-4">
                     <p class="d-inline">Mostrar</p>
-                    <select class="form-select form-select-sm d-inline" id="cantperpag" aria-label=".form-select-sm example">
-                    <option value="5" v-on:click="cambiarPagi(5)">5</option>
-                    <option selected value="10" v-on:click="cambiarPagi(10)">10</option>
-                    <option value="15" v-on:click="cambiarPagi(15)">15</option>
+                    <select class="form-select form-select-sm d-inline" id="cantperpag" aria-label=".form-select-sm example" v-model="cantPag" v-on:change="cambiarPagi">
+                    <option value="5" >5</option>
+                    <option selected value="10">10</option>
+                    <option value="15" >15</option>
                     </select>
                 </div>
                 <div class="col-3">
@@ -21,7 +21,9 @@
             
         </div>
         <div class="table-responsive shadow-sm p-3 mb-5 mt-1 bg-white rounded" id="tabla">
-            
+            <div>
+                <h3>Nombre Articulo:</h3> <p>{{nombreArticulo}}</p>
+            </div>
             <table class="table table-hover table-sm table-bordered table-reflow">
                 <thead class="thead">
                     <tr>
@@ -79,17 +81,17 @@
                     <div class="row">
                         <div class="col busqueda">
                             <label for="articulo">Articulo:</label>
-                            <input type="search" id="articulo" class="form-control" placeholder="Articulo" >
+                            <input type="search" id="articulo" class="form-control" placeholder="Articulo" onkeyup="this.value = this.value.toUpperCase();">
                         </div>
                         <div class="col fecha">
                             <label for="start">Desde:</label>
-                            <input type="date" id="start" class="form-control" placeholder="Desde" value="Desde">
+                            <input type="date" id="start" class="form-control" placeholder="Desde" value="Desde" >
                         </div>
                     </div>
                     <div class="row">
                         <div class="col busqueda">
                             <label for="cliente">Cliente:</label>
-                            <input type="search" id="cliente" class="form-control" placeholder="Cliente" >
+                            <input type="search" id="cliente" class="form-control" placeholder="Cliente" onkeyup="this.value = this.value.toUpperCase();">
                         </div>
                         
                         <div class="col fecha">
@@ -134,7 +136,8 @@ export default {
             articulo:null,
             inicio:null,
             final:null,
-            totalPag:0
+            totalPag:0,
+            nombreArticulo:""
         }
     },
     components:{
@@ -209,6 +212,7 @@ export default {
                 this.ListaArticulos=data.data.Productos;
                 console.log(this.ListaArticulos[0]);
                 this.totalPag=this.ListaArticulos[0].PAGINAS;
+                this.nombreArticulo=this.ListaArticulos[0].NOMORIGEN;
             });
             this.buscar=false;
             
@@ -294,8 +298,7 @@ export default {
         this.buscar=true;
         
     },
-    cambiarPagi:function(cantidad){
-        this.cantPag=cantidad;
+    cambiarPagi:function(){
         this.pagina=1;
         let instance = axios.create();
             var rut=window.location.href;
@@ -347,6 +350,13 @@ th{
 }
 .imgbuscar{
     width: 30px;
+}
+h3{
+    font-size: 100%;
+    font-weight: 700;
+}
+p{
+    font-size: 90%;
 }
 
 </style>

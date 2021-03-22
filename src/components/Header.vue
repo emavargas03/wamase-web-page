@@ -72,6 +72,10 @@
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
                     <button type="button" class="btn btn-success" v-on:click="sendModal">Cambiar</button>
+                    
+                </div>
+                <div class="alert alert-danger" role="alert" v-if="error">
+                  {{error_msg}}
                 </div>
                 </div>
               </div>
@@ -90,7 +94,9 @@
         cont:false,
         apellidos:'',
         nombrepersona:'',
-        tipoU:localStorage.tipo
+        tipoU:localStorage.tipo,
+        error:false,
+        error_msg:""
       }
       
     },
@@ -171,8 +177,15 @@
        };
        instance.post(urlApoyo,json,headers).then(data =>{
         console.log(data);
+        if(data.data.Error=="Nombre de Usuario o Contraseña Incorrrectos"){
+          this.error=true;
+          this.error_msg="Contraseña actual invalida";
+
+        }else{
+          this.cont=false;
+
+        }
        });
-       this.cont=false;
       }
     }
   }
