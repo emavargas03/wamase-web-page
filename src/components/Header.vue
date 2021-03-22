@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" id="barra" class="navbar-dark text-light ml-auto">
-      <a class="navbar" href="#" id="logo"><img src="@/assets/logoWamase.png" id="icon" alt="IconoEmpresa"/></a>
+      <a class="navbar" href="#" id="logo"><img src="@/assets/logoWamase.png" v-on:click="landing" id="icon" alt="IconoEmpresa"/></a>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -140,6 +140,9 @@
       },
       cancelModal:function(){
         this.cont=false;
+      },
+      landing:function(){
+        this.$router.push('inicio');
       },
       sendModal:function() {
       var oldPassword=document.getElementById('actual').value;

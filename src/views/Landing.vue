@@ -1,9 +1,9 @@
 <template>
   <div>
       <Header/>
-      <div class="container">
-          <div class="m-0 row justify-content-center">
-              <div class="col-auto pt-5" logo>
+      <div class="container pt-5">
+          <div class="m-0 row justify-content-center pt-5">
+              <div class="col-auto mx-auto" logo>
                   <img src="@/assets/Wamase.png" class="mx-auto img-fluid" id="imagen" alt="IconoEmpresa"/>
               </div>
           </div>

@@ -55,7 +55,7 @@
                       
                     </div>
                     <div class="modal-body">
-                      <textarea name="comentarios" rows="10" cols="40" placeholder="Escriba aquí la razón" id="razon"></textarea>
+                      <textarea name="comentarios" rows="10" cols="50" placeholder="Escriba aquí la razón" id="razon"></textarea>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
@@ -69,7 +69,7 @@
         </transition>
       </div>
 
-    <div v-if="acceptModal">
+    <div v-if="acceptModal" style="">
       <transition name="model">
         <div class="modal-mask">
           <div class="modal-wrapper">
@@ -84,11 +84,11 @@
                     
                   </div>
                   <div class="modal-body">
-                    <textarea name="comentarios" rows="10" cols="35" placeholder="Escriba aquí la razón" id="razon"></textarea>
+                    <textarea name="comentarios" rows="10" cols="50" placeholder="Escriba aquí la razón" id="razon"></textarea>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
-                    <button type="button" class="btn btn-success" v-on:click="sendModal">Enviar</button>
+                    <button type="button" class="btn btn-primary" v-on:click="sendModal">Enviar</button>
                 </div>
                 </div>
               </div>
@@ -254,17 +254,13 @@ height: 100vh;
 background-color:#ededed;
 }
 
-/* .modal-mask{
-  position: absolute;
-   z-index: 9998;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, .5);
-   display: table;
-   transition: opacity .3s ease;
-}
+ /* .modal-mask{
+    display:flex!important;
+    flex-direction:column;
+    justify-content:center;
+    align-content:center;
+    align-items: flex-start;
+}/* 
    .modal-wrapper {
      display: table-cell;
      vertical-align: middle;
@@ -278,5 +274,12 @@ background-color:#ededed;
 .thead{
   background: #02cf8b;
   color: #ffffff;
+}
+textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    width: 100%;
 }
 </style>
