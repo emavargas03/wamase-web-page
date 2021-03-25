@@ -10,6 +10,15 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
+          <div v-if="tipoU=='E'">
+            <b-nav-item-dropdown right>
+              <template #button-content>
+                <em>Pedidos</em>
+              </template>
+              <b-dropdown-item href="#" v-on:click="pedido">Hacer Pedido</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+          </div>
           <div v-if="tipoU=='A'">
           <b-nav-item-dropdown right>
 
@@ -20,16 +29,20 @@
             <b-dropdown-item href="#" v-on:click="articulosAgente">Articulo Cliente</b-dropdown-item>
           </b-nav-item-dropdown>
           </div>
-          <b-nav-item-dropdown right>
+          <div v-if="tipoU=='A' || tipoU=='P'">
 
-            <!-- Using 'button-content' slot -->
-            <template #button-content>
-              <em>Solicitudes</em>
-            </template>
-            <b-dropdown-item href="#" v-on:click="verPendientes">Pendientes</b-dropdown-item>
-            <b-dropdown-item href="#" v-on:click="verAceptados">Aceptadas</b-dropdown-item>
-            <b-dropdown-item href="#" v-on:click="verRechazados">Rechazadas</b-dropdown-item>
-          </b-nav-item-dropdown>
+            
+            <b-nav-item-dropdown right>
+              
+              <!-- Using 'button-content' slot -->
+              <template #button-content>
+                <em>Solicitudes</em>
+              </template>
+              <b-dropdown-item href="#" v-on:click="verPendientes">Pendientes</b-dropdown-item>
+              <b-dropdown-item href="#" v-on:click="verAceptados">Aceptadas</b-dropdown-item>
+              <b-dropdown-item href="#" v-on:click="verRechazados">Rechazadas</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </div>
           <b-nav-item-dropdown right> 
             <!-- Using 'button-content' slot -->
             <template #button-content>
@@ -107,6 +120,9 @@
       articulosAgente(){
         this.$router.push('/webapp/articulosagente')
       },
+      pedido(){
+        this.$router.push('/webapp/pedido')
+      },
       solicitud(){
         var rut=window.location.href;
         var ruta =rut.search("dashboardagente");
@@ -118,7 +134,6 @@
         }
       },
       logout (){
-        console.log("Cerrar sesión");
         localStorage.clear();
         this.$router.push('/webapp/#')
       },
@@ -185,7 +200,14 @@
           this.cont=false;
 
         }
-       });
+       }).catch((error)=>{
+            if(error.response){
+                if(error.response.status==401){
+                    localStorage.clear();
+                    this.$router.push('/webapp/');
+                }
+            }
+        });
       }
     }
   }

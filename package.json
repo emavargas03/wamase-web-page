@@ -12,8 +12,12 @@
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
+    "jspdf": "^2.3.1",
+    "jspdf-autotable": "^3.5.14",
+    "nodemailer": "^6.5.0",
     "vue": "^2.6.12",
     "vue-axios": "^3.2.4",
+    "vue-pdf": "^4.2.0",
     "vue-router": "^3.2.0",
     "vuejs-datepicker": "^1.6.2"
   },

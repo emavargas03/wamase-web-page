@@ -9,6 +9,7 @@ import LogIn from '../views/LogIn.vue'
 import DashboardAgente from '../views/DashboardAgente.vue'
 import ArticulosAgente from '../views/ArticulosAgentes.vue'
 import Landing from '../views/Landing.vue'
+import HacerPedido from '../views/HacerPedido.vue'
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,12 @@ const routes = [
     path:'/webapp/inicio',
     name:'Inicio',
     component:Landing,
+    meta:{requiresAuth:true}
+  },
+  {
+    path:'/webapp/pedido',
+    name:'HAcerPedido',
+    component:HacerPedido,
     meta:{requiresAuth:true}
   }
 ]

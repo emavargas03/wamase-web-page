@@ -25,14 +25,15 @@
             <td>{{solicitud.COD_AGENTE}}</td>
             <td>{{solicitud.COD_CLIENTE}}</td>
             <td>{{solicitud.COMENTARIO_AGEN}}</td>
-            <td>{{solicitud.FECHA_SOL}}</td>
+            <td>{{fecha(solicitud.FECHA_SOL)}}</td>
             <td>{{solicitud.ESTADO}}</td>
             <td v-if="estadoRechazado">{{solicitud.COMENTARIO_PROV}}</td>
             <td v-if="estadoAceptado">{{solicitud.COMENTARIO_PROV}}</td>
             <td v-if="pendiente">
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-success"  v-on:click="aceptarModal(solicitud.NUM_APOYO)">Aceptar</button>
-                <button type="button" class="btn btn-danger" v-on:click="openModal(solicitud.NUM_APOYO)" :id="solicitud.NUM_APOYO">Rechazar</button>
+                <!-- <button type="button" class="btn btn-success"  v-on:click="aceptarModal(solicitud.NUM_APOYO)">Aceptar</button> -->
+                <b-button v-b-modal="'aceptar'" class="btn-success" v-on:click="aceptarModal(solicitud.NUM_APOYO)">Aceptar</b-button>
+                <b-button v-b-modal="'rechazar'" class="btn-danger" v-on:click="openModal(solicitud.NUM_APOYO)">Rechazar</b-button>
               </div>
             </td>
             
@@ -40,70 +41,32 @@
           </tr>
         </tbody>
       </table>
-      <div v-if="myModel">
-        <transition name="model">
-          <div class="modal-mask">
-            <div class="modal-wrapper">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Rechazar</h5>
-                      <button type="button" class="close" v-on:click="myModel=false">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      
-                    </div>
-                    <div class="modal-body">
-                      <textarea name="comentarios" rows="10" cols="50" placeholder="Escriba aquí la razón" id="razon"></textarea>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
-                      <button type="button" class="btn btn-primary" v-on:click="sendModal">Enviar</button>
-                  </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </transition>
-      </div>
 
-    <div v-if="acceptModal" style="">
-      <transition name="model">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title">Aceptar</h5>
-                    <button type="button" class="close" v-on:click="acceptModal=false">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    
+    
+  
+
+    </div>
+    </div>
+
+    <b-modal id="aceptar" title="Aceptar" ref="aceptar" hide-footer>
+                  <div class="modal-body">
+                    <textarea name="comentarios" rows="10" cols="50" placeholder="Escriba aquí la razón" id="razon"></textarea>
                   </div>
+                  <div class="modal-footer">
+                    
+                    <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
+                    <button type="button" class="btn btn-primary" v-on:click="sendModal">Enviar</button>
+                
+    </b-modal>
+        <b-modal id="rechazar" title="Rechazar" ref="rechazar" hide-footer>
                   <div class="modal-body">
                     <textarea name="comentarios" rows="10" cols="50" placeholder="Escriba aquí la razón" id="razon"></textarea>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
                     <button type="button" class="btn btn-primary" v-on:click="sendModal">Enviar</button>
-                </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </div>
-
-
-  
-
-    </div>
-    </div>
-
+                
+    </b-modal>
   </div>
 
 
@@ -124,7 +87,8 @@ export default{
       estadoRechazado:false,
       estadoAceptado:false,
       acceptModal:false,
-      tipoEstado:"P"
+      tipoEstado:"P",
+      numeroSolicitud:null
     }
   },
   components:{
@@ -145,7 +109,14 @@ export default{
           this.pendiente=true;
           console.log("Funciona")
         }
-     });
+     }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
     if (localStorage.estado=="R"){
       this.estadoRechazado=true;
       this.estadoAceptado=false;
@@ -169,18 +140,18 @@ export default{
   },
   methods:{
     openModal:function(numero){
-      this.myModel=true;
       this.apoyoAceptar=numero;
       this.tipoEstado="R";
     },
     aceptarModal:function(numero){
-      this.acceptModal=true;
       this.apoyoAceptar=numero;
       this.tipoEstado="A";
     },
     cancelModal:function(){
       this.myModel=false;
       this.acceptModal=false;
+      this.$refs['aceptar'].hide();
+      this.$refs['rechazar'].hide();
     },
     sendModal:function(){
       let instance = axios.create();
@@ -195,6 +166,7 @@ export default{
           "Authorization":bearer
           }
       }
+      console.log(this.apoyoAceptar);
       var comentario=document.getElementById('razon').value;
       console.log(this.apoyoAceptar);
       let json={
@@ -204,8 +176,24 @@ export default{
        };
        instance.post(urlApoyo,json,headers).then(data =>{
         console.log(data);
-       });
+       }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
+       this.$refs['aceptar'].hide();
+       this.$refs['rechazar'].hide();
+
        //location.reload()
+    },
+    
+    fecha:function(fecha){
+      var date = new Date(fecha);
+      var n=date.toLocaleString();
+      return n;
     },
     updateTable:function() {
       var rut=window.location.href;
@@ -218,7 +206,14 @@ export default{
       //console.log(data.data.Apoyos[0].Estado);
       this.ListaSolicitudes=data.data.Apoyos;
 
-     });
+     }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
     if (localStorage.estado=="R"){
       this.estadoRechazado=true;
       this.estadoAceptado=false;

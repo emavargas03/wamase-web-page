@@ -76,7 +76,14 @@ export default {
           this.pendiente=true;
           console.log("Funciona")
         }
-     });
+     }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
     if (localStorage.estado=="R"){
       this.estadoRechazado=true;
     }
@@ -100,7 +107,14 @@ export default {
         if(data.data.Apoyos[0].ESTADO == "P"){
           this.pendiente=true;
         }
-     });
+     }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
     if (localStorage.estado=="R"){
       this.estadoRechazado=true;
       this.estadoAceptado=false;

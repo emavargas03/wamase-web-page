@@ -170,7 +170,14 @@ export default {
         console.log(data);
         this.ListaArticulos=data.data.Productos;
         console.log(this.ListaArticulos);
-       });
+       }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
     },
     beforeUpdate:function(){
         //this.recargar();
@@ -213,6 +220,13 @@ export default {
                 console.log(this.ListaArticulos[0]);
                 this.totalPag=this.ListaArticulos[0].PAGINAS;
                 this.nombreArticulo=this.ListaArticulos[0].NOMORIGEN;
+            }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
             });
             this.buscar=false;
             
@@ -255,7 +269,14 @@ export default {
             console.log(data);
             this.ListaArticulos=data.data.Productos;
             console.log(this.ListaArticulos);
-       });
+       }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
        
     },
     retroceder:function(){
@@ -291,7 +312,14 @@ export default {
             console.log(data);
             this.ListaArticulos=data.data.Productos;
             console.log(this.ListaArticulos);
-       });
+       }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
        
     },
     openModal:function(){
@@ -328,7 +356,14 @@ export default {
             this.totalPag=this.ListaArticulos[0].PAGINAS;
 
             
-       });
+       }).catch((error)=>{
+                if(error.response){
+                    if(error.response.status==401){
+                        localStorage.clear();
+                        this.$router.push('/webapp/');
+                    }
+                }
+            });
     },
     },
 }
