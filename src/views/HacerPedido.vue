@@ -178,8 +178,8 @@ export default {
                 doc.setFontSize(10);
                 doc.text("Total: "+this.total+" colones",40,100);
                 doc.setFontSize(9);
-                doc.text("Numero de pedido: "+this.datoPedido+"0",40,120),
-                //doc.addImage(imagedata,'PNG',460,30,100,40,'FAST');
+                //doc.text("Numero de pedido: "+this.datoPedido+"0",40,120),
+                doc.addImage(imagedata,'PNG',460,30,100,40,'FAST');
                 doc.autoTable(columns, vm.array, {
                     margin: {top: 100},
                     headStyles: {
@@ -230,7 +230,7 @@ export default {
                 let json={
                     "user_id":  localStorage.getItem("nombre"),
                     "order_id":str,
-                    "cod_cliente":localStorage.getItem("cod_cliente"),
+                    "cod_cliente":localStorage.getItem("cod"),
                     "cart":this.array,
                     "total":String(to),
                     "envio":false,
@@ -308,6 +308,7 @@ export default {
         },
         buscarA:function(){
             this.articulo=document.getElementById('articulobuscar').value;
+            this.articulo.toUpperCase();
             let instance = axios.create();
             var rut=window.location.href;
             var ruta =rut.search("webapp/");

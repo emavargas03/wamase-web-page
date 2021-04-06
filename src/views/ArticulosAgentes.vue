@@ -183,6 +183,11 @@ export default {
         //this.recargar();
     },
     methods:{
+        fecha:function(fecha){
+            var date = new Date(fecha);
+            var n=date.toLocaleString();
+            return n;
+        },
         buscarRegistro:function(){
             this.pagina=1;
             this.articulo=document.getElementById("articulo").value;

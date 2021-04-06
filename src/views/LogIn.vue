@@ -78,6 +78,7 @@ export default {
            localStorage.nombre=data.data.datosUsuario.DatosUsuario[0].USUARIO;
            localStorage.nombrepersona=data.data.datosUsuario.DatosUsuario[0].NOMBREPERSONA;
            localStorage.apellidos=data.data.datosUsuario.DatosUsuario[0].APELLIDOS;
+           localStorage.cod=data.data.datosUsuario.DatosUsuario[0].CLIENTE_COD;
           //  localStorage.estado="P"
           //  if (localStorage.tipo=="P"){//si el tipo es proveedor, lo envía al dashboard de proveedores.
           //    this.$router.push('dashboards');

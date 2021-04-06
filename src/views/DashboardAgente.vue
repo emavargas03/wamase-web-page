@@ -24,7 +24,7 @@
                         <td>{{solicitud.COD_AGENTE}}</td>
                         <td>{{solicitud.COD_CLIENTE}}</td>
                         <td>{{solicitud.COMENTARIO_AGEN}}</td>
-                        <td>{{solicitud.FECHA_SOL}}</td>
+                        <td>{{fecha(solicitud.FECHA_SOL)}}</td>
                         <td>{{solicitud.ESTADO}}</td>
                         <td v-if="estadoRechazado">{{solicitud.COMENTARIO_PROV}}</td>
                         <td v-if="estadoAceptado">{{solicitud.COMENTARIO_PROV}}</td>
@@ -130,6 +130,14 @@ export default {
       this.estadoAceptado=false;
       this.pendiente=true;
     }
+    },
+    methods:{
+        
+      fecha:function(fecha){
+        var date = new Date(fecha);
+        var n=date.toLocaleString();
+        return n;
+      },
     }
   }
 

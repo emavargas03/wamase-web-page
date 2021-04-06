@@ -10,6 +10,8 @@ import DashboardAgente from '../views/DashboardAgente.vue'
 import ArticulosAgente from '../views/ArticulosAgentes.vue'
 import Landing from '../views/Landing.vue'
 import HacerPedido from '../views/HacerPedido.vue'
+import Coberturas from '../views/Coberturas.vue'
+
 
 Vue.use(VueRouter)
 
@@ -53,6 +55,12 @@ const routes = [
     path:'/webapp/pedido',
     name:'HAcerPedido',
     component:HacerPedido,
+    meta:{requiresAuth:true}
+  },
+  {
+    path:'/webapp/coberturas',
+    name:'Coberturas',
+    component:Coberturas,
     meta:{requiresAuth:true}
   }
 ]

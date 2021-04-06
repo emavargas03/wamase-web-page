@@ -27,6 +27,7 @@
               <em>Consultas</em>
             </template>
             <b-dropdown-item href="#" v-on:click="articulosAgente">Articulo Cliente</b-dropdown-item>
+            <b-dropdown-item href="#" v-on:click="coberturas">Coberturas</b-dropdown-item>
           </b-nav-item-dropdown>
           </div>
           <div v-if="tipoU=='A' || tipoU=='P'">
@@ -48,7 +49,7 @@
             <template #button-content>
               <em><img src="@/assets/usuario.png" width="30px" alt="IconoEmpresa"/></em>
             </template>
-              <b-dropdown-item href="#" v-on:click="openModal()">Cambiar contraseña</b-dropdown-item>
+              <b-dropdown-item href="#" v-b-modal.cambiarcont v-on:click="openModal">Cambiar contraseña</b-dropdown-item>
               <b-dropdown-item href="#" v-on:click="logout()">Cerrar sesión</b-dropdown-item>
               
             
@@ -97,6 +98,36 @@
         </div>
       </transition>
     </div>
+    <b-modal id="cambiarcont" title="Modificar Datos Usuario" ref="cambiarcont" hide-footer>
+      <div class="modal-body">
+        <b-row align-h="between">
+          <b-col>
+            <p class="etiqueta">Nombre:</p>
+            <input type="text" class="rounded" name="nombre" id="nombre" :value="this.nombrepersona">
+            <p class="etiqueta">Apellidos:</p>
+            <input type="text" name="apellidos" class="rounded" id="apellidos" :value="this.apellidos">
+            <p class="etiqueta">Codigo:</p>
+            <input type="text" name="apellidos" class="rounded" id="codigo" :value="this.codCliente">
+          </b-col>
+          <b-col>
+            <p class="etiqueta">Contraseña actual:</p>
+          <input type="password" name="oldPassword" class="rounded" placeholder="Contraseña actual" id="actual"><br>
+          <p class="etiqueta">Contraseña nueva:</p>
+          <input type="password" class="rounded" name="newPassword" placeholder="Contraseña nueva" id="nueva">
+          </b-col>
+        </b-row>
+          
+          
+      </div>
+      <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="cancelModal" >Cancelar</button>
+                    <button type="button" class="btn btn-success" v-on:click="sendModal">Cambiar</button>
+                    
+                </div>
+                <div class="alert alert-danger" role="alert" v-if="error">
+                  {{error_msg}}
+                </div>
+    </b-modal>
   </div>
 </template>
 <script>
@@ -153,14 +184,19 @@
         this.solicitud();
         //location.reload();
       },
+      coberturas(){
+        this.$router.push('coberturas')
+      },
       openModal:function(){
         this.nombrepersona=localStorage.nombrepersona;
         this.apellidos=localStorage.apellidos;
-        this.cont=true;
+        this.codCliente=localStorage.cod_cliente;
+        //this.cont=true;
         
       },
       cancelModal:function(){
         this.cont=false;
+        this.$refs["cambiarcont"].hide();
       },
       landing:function(){
         this.$router.push('inicio');
@@ -195,7 +231,7 @@
         if(data.data.Error=="Nombre de Usuario o Contraseña Incorrrectos"){
           this.error=true;
           this.error_msg="Contraseña actual invalida";
-
+          
         }else{
           this.cont=false;
 
