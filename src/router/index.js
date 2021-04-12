@@ -11,7 +11,7 @@ import ArticulosAgente from '../views/ArticulosAgentes.vue'
 import Landing from '../views/Landing.vue'
 import HacerPedido from '../views/HacerPedido.vue'
 import Coberturas from '../views/Coberturas.vue'
-
+import ComprasXProveedor from '../views/ComprasXProovedor.vue'
 
 Vue.use(VueRouter)
 
@@ -61,6 +61,12 @@ const routes = [
     path:'/webapp/coberturas',
     name:'Coberturas',
     component:Coberturas,
+    meta:{requiresAuth:true}
+  },
+  {
+    path:'/webapp/comprasxproveedor',
+    name:'ComprasXProveedor',
+    component:ComprasXProveedor,
     meta:{requiresAuth:true}
   }
 ]

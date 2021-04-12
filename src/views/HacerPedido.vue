@@ -1,30 +1,16 @@
+//Para hacer pedidos de compras de articulos
 <template>
   <div>
       <Header/>
       <b-container>
           <div class="shadow-sm p-3 mt-5 bg-white rounded buscar">
-              <!-- <b-row align-h="start">
-                  <b-button>
-                    <b-button size="sm" variant="transparent"><img src="@/assets/carrito.png" alt="buscar" class="imgbuscar"></b-button>  
-                  </b-button>
-              </b-row> -->
+            <!--  -->
             <b-row align-h="between">
                 <b-button v-on:click="getArray" size="sm" variant="transparent"><img src="@/assets/carrito.png" alt="buscar" class="imgCarrito" v-b-modal.carrito></b-button>
                 <div inline class="former">
-                    <!-- <label class="sr-only" for="inline-form-input-name">Name</label>
-                    <b-form-input
-                    type="search"
-                    id="articulobuscar"
-                    class="mb-2 mr-sm-2 mb-sm-0 inputart"
-                    placeholder="articulo"
-                    style="widht:152px;"
-                    ></b-form-input>
-                    <b-input-group-append>
-                        <b-button variant="transparent" class="pb-2"><img src="@/assets/search.png" alt="buscar" class="imgbuscar" v-on:click="buscarA"></b-button>
-                    </b-input-group-append> -->
                     <b-input-group
                     size="sm"
-                >
+                    >
                     <b-form-input id="articulobuscar" type="search" placeholder="articulo" class="inputart" v-on:keyup.enter="buscarA"></b-form-input>
                     <b-input-group-append>
                     <b-button size="sm" variant="transparent"><img src="@/assets/search.png" alt="buscar" class="imgbuscar" v-on:click="buscarA"></b-button>
@@ -35,6 +21,7 @@
             </b-row>
 
         </div>
+        <!-- Tabla que muestra la informacion del articulo -->
         <div class="shadow-sm p-3 mt-3 bg-white rounded buscar" v-if="buscando">
             <table class="table table-hover table-sm table-striped table-reflow">
                 <thead><th colspan="2" scope="col">Articulo</th></thead>
@@ -59,8 +46,10 @@
             
             </table>
             <b-row align-h="end">
+                <!-- Si se escribe la cantidad y se da enter se agrega el articulo al carrito el articulo -->
                 <b-form-input id="articuloCantidad" type="number" value="1" placeholder="U" min="1" class="inputnum pl-1" v-on:keyup.enter="agregarArticulo"></b-form-input>
-                <b-button size="sm" variant="primary" v-on:click="agregarArticulo">Agregar</b-button>
+                <!-- Este boton agrega un articulo -->
+                <b-button size="sm" variant="primary" v-on:click="agregarArticulo" >Agregar</b-button>
             </b-row>
             <div>
 
@@ -70,6 +59,7 @@
       
     <b-modal id="carrito" title="Lista de Compras" ref="carrito" hide-footer>
                   <div class="modal-body">
+                      <!-- Este crea un card por cada articulo, en el cual muestra los datos de este articulo -->
                     <b-card border-variant="dark" class="cardtext" title="Articulo" v-for="(dato,index) in array" :key="dato.id">
                             <template #header>
                                 <button type="button" class="close" v-on:click="eliminar(index)">
@@ -84,32 +74,36 @@
 
                   </div>
                   <div class="modal-footer">
+                      <!-- Este muestra el total del articulo -->
                     <p class="mr-auto">Total :{{total.toLocaleString()}}</p>
+                    <!-- Cierra el modal -->
                     <button type="button" class="btn btn-secondary" v-on:click="cancelModal">Cancelar</button>
+                    <!-- Abre el modal para confirmar -->
                     <button type="button" class="btn btn-primary" v-b-modal.confirmar>Solicitar</button>
+                    <!-- Se muestra si error es verdadero -->
                     <div class="alert alert-danger mr-auto" role="alert" v-if="error">
                         La compra no puede ser menor a 5000 colones
                     </div>
                   </div>
     </b-modal>
+    <!-- Modal para confirmar -->
     <b-modal id="confirmar" title="Confirmar" ref="confirmar" hide-footer>
         <div class="modal-body">
             <span>¿Desea confirmar este pedido?</span>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" v-on:click="cancelPed">Cancelar</button>
+            <!-- Hace que se realice la compra -->
             <button type="button" class="btn btn-primary" v-on:click="exportPDF">Confirmar</button>
         </div>
     </b-modal>
+    <!-- Muestra el numero del pedido -->
     <b-modal id="pedido" title="Numero Pedido" ref="pedido" hide-footer>
         <div class="modal-body">
             <span>Numero de pedido: {{datoPedido}}</span>
         </div>
     </b-modal>
   </div>
-  
-
-
 </template>
 
 <script>
@@ -132,6 +126,7 @@ export default {
             error:false,
             datoPedido:null,
             confirmar:false,
+            
         }
     },
     mounted:function(){

@@ -1,3 +1,4 @@
+//Lo mismo que el Dashboard, pero solo muestra las solicitudes.
 <template>
 <div>
 <Header></Header>

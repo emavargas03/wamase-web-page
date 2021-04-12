@@ -1,3 +1,4 @@
+//Vista para buscar el historico de un cliente
 <template>
 <div>
     <Header/>
@@ -14,6 +15,7 @@
                     </select>
                 </div>
                 <div class="col-3">
+                    <!-- Abre el modal para buscar -->
                     <button class="btn btn-sm"><img src="@/assets/search.png" alt="buscar" class="imgbuscar" v-on:click="openModal"></button>
                 </div>    
             </div>
@@ -22,6 +24,7 @@
         </div>
         <div class="table-responsive shadow-sm p-3 mb-5 mt-1 bg-white rounded" id="tabla">
             <div>
+                <!-- Muestra el nombre del Articulo seleccionado -->
                 <h3>Nombre Articulo:</h3> <p>{{nombreArticulo}}</p>
             </div>
             <table class="table table-hover table-sm table-bordered table-reflow">
@@ -31,20 +34,24 @@
                         <th scope="col">Fecha</th>
                         <th style="width=130%" scope="col">Articulo</th>
                         <th scope="col">Cantidad</th>
+                        <th scope="col">Precio con Descuento</th>
                         <th scope="col">Descuento</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Recorre el arreglo ListaArticulos y muestra sus propiedades. -->
                     <tr v-for="articulo in ListaArticulos" :key="articulo.DOCUMENTO">
                         <td>{{articulo.DOCUMENTO}}</td>
-                        <td>{{articulo.FECHA}}</td>
+                        <td>{{fecha(articulo.FECHA)}}</td>
                         <td style="width=130%">{{articulo.ARTICULO}}</td>
                         <td>{{articulo.CANT_UNDS}}</td>
+                        <td>{{price(articulo.PRECIO_FACTURA)}}</td>
                         <td>{{articulo.DESCU}}</td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <nav aria-label="Page navigation example">
+                        <!-- Botones para moverse entre las paginas -->
                         <ul class="pagination">
                             <li class="page-item" v-on:click="retroceder">
                             <a class="page-link" href="#" aria-label="Previous">
@@ -62,7 +69,7 @@
 
             </table>
         </div>
-        
+        <!-- Muestra el modal de buscar articulo -->
     <div v-if="buscar">
       <transition name="model">
         <div class="modal-mask">
@@ -102,7 +109,9 @@
                     
                   </div>
                   <div class="modal-footer">
+                      <!-- Al presionarlo cierra el modal -->
                     <button type="button" class="btn btn-secondary" v-on:click="buscar=false">Cancelar</button>
+                    <!-- Envia la busqueda -->
                     <button type="button" class="btn btn-primary" v-on:click="buscarRegistro">Buscar</button>
                 </div>
                 </div>
@@ -179,16 +188,19 @@ export default {
                 }
             });
     },
-    beforeUpdate:function(){
-        //this.recargar();
-    },
     methods:{
         fecha:function(fecha){
             var date = new Date(fecha);
-            var n=date.toLocaleString();
+            var n=date.toLocaleDateString();
+            return n;
+        },
+        price:function(fecha){
+            //var date = new Date(fecha);
+            var n=fecha.toLocaleString();
             return n;
         },
         buscarRegistro:function(){
+            //Este ejecuta la busqueda del historico.
             this.pagina=1;
             this.articulo=document.getElementById("articulo").value;
             this.cliente=document.getElementById("cliente").value;
@@ -220,9 +232,7 @@ export default {
                 "Hasta":this.final,
             };
             instance.post(urlArticulos,json,headers).then(data =>{
-                console.log(data);
                 this.ListaArticulos=data.data.Productos;
-                console.log(this.ListaArticulos[0]);
                 this.totalPag=this.ListaArticulos[0].PAGINAS;
                 this.nombreArticulo=this.ListaArticulos[0].NOMORIGEN;
             }).catch((error)=>{
@@ -241,13 +251,12 @@ export default {
             this.recargar();
         }, */
         recargar:function(){
+            //Ejecuta la busqueda en la siguiente pagina
             if(this.pagina==this.totalPag){
                 this.pagina=this.totalPag;
             }else{
                 this.pagina= this.pagina+1;
             }
-            console.log(this.desde,this.hasta);
-            console.log(this.pagina);
             let instance = axios.create();
             var rut=window.location.href;
             var ruta =rut.search("webapp/");
@@ -268,12 +277,9 @@ export default {
             "Desde":this.inicio,
             "Hasta":this.final,
         };
-        console.log(json);
         
         instance.post(urlArticulos,json,headers).then(data =>{
-            console.log(data);
             this.ListaArticulos=data.data.Productos;
-            console.log(this.ListaArticulos);
        }).catch((error)=>{
                 if(error.response){
                     if(error.response.status==401){
@@ -285,13 +291,12 @@ export default {
        
     },
     retroceder:function(){
+        //Ejecuta la busqueda en la pagina anterior
             if(this.pagina==1){
                 this.pagina=1;
             }else{
                 this.pagina= this.pagina-1;
             }
-            
-            console.log(this.pagina);
             let instance = axios.create();
             var rut=window.location.href;
             var ruta =rut.search("webapp/");
@@ -314,9 +319,7 @@ export default {
         };
         
         instance.post(urlArticulos,json,headers).then(data =>{
-            console.log(data);
             this.ListaArticulos=data.data.Productos;
-            console.log(this.ListaArticulos);
        }).catch((error)=>{
                 if(error.response){
                     if(error.response.status==401){
@@ -332,6 +335,7 @@ export default {
         
     },
     cambiarPagi:function(){
+        //Cambia cuantas filas se ven por pagina
         this.pagina=1;
         let instance = axios.create();
             var rut=window.location.href;
@@ -355,9 +359,7 @@ export default {
         };
         
         instance.post(urlArticulos,json,headers).then(data =>{
-            console.log(data.data.Productos[0]);
             this.ListaArticulos=data.data.Productos;
-            console.log(this.ListaArticulos);               
             this.totalPag=this.ListaArticulos[0].PAGINAS;
 
             
